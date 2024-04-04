@@ -1,0 +1,19 @@
+{
+  "port": 3000,
+  "logger": "info",
+  "refresh": 10000,
+  "services": [
+    {
+      "service": "httpbin",
+      "endpoint": "https://httpbin.org/get"
+    },
+    {
+      "service": "another host",
+      "endpoint": "https://anotherhost.com/api/data"
+    },
+    {
+      "service": "this is not a real service",
+      "endpoint": "https://thisreallyshouldntwork.com/api/data"
+    }
+  ]
+}

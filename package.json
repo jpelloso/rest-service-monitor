@@ -1,0 +1,25 @@
+{
+  "name": "rest-service-monitor",
+  "version": "1.0.0",
+  "description": "A Node.js application that queries REST endpoints and displays the results on a web page",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "rest",
+    "ejs"
+  ],
+  "author": "Jon Pelloso",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "log4js": "^6.9.1",
+    "xml2js": "^0.4.23"
+  }
+}
+

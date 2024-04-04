@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REST Service Monitor</title>
+  <link rel="icon" type="image/x-icon" href="/images/icon.svg">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="play-regular">
+  <div class="header">
+    <div class="logo play-bold" href="/">
+      <img src="/images/icon.svg">
+      REST Service Monitor
+    </div>
+  </div>
+  <div class="summary">
+    Number of services being monitored: <%= totalServices %>
+  </div>
+  <div id="statusList" class="grid-container">
+    <% statuses.forEach(status => { %>
+      <div class="grid-item">
+        <div class="serivce-name"><%= status.name %></div>
+        <div class="service-endpoint"><span class="service-status <%= status.status == '200' ? 'success' : 'error' %>"><%= status.status %></span> - <%= status.endpoint %></div>
+      </div>
+    <% }); %>
+  </div>
+  <table class="error-code-table">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Meaning</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="service-status success">200</td>
+        <td>OK - The request was successful</td>
+      </tr>
+      <tr>
+        <td class="service-status error">400</td>
+        <td>Bad Request - The request could not be understood by the server</td>
+      </tr>
+      <tr>
+        <td class="service-status error">401</td>
+        <td>Unauthorized - Authentication is required and has failed or has not yet been provided</td>
+      </tr>
+      <tr>
+        <td class="service-status error">404</td>
+        <td>Not Found - The requested resource could not be found on the server</td>
+      </tr>
+      <tr>
+        <td class="service-status error">500</td>
+        <td>Internal Server Error - The server encountered an unexpected condition that prevented it from fulfilling the request</td>
+      </tr>
+    </tbody>
+  </table>
+  <script>
+    // Function to refresh the status every 10 seconds
+    function refreshStatus() {
+      fetch('/')
+        .then(response => response.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          const newStatusList = doc.getElementById('statusList');
+
+          document.getElementById('statusList').innerHTML = newStatusList.innerHTML;
+        })
+        .catch(error => {
+          console.error('Error refreshing status:', error);
+        });
+    }
+
+    // Refresh the status every 10 seconds
+    setInterval(refreshStatus, <%= refreshRate %>);
+  </script>
+</body>
+</html>
